@@ -103,7 +103,7 @@ public class Utils {
      */
     public static double calculateRotation(double rotationSpeed, boolean isSkyboxRotation, ClientLevel level) {
         if (rotationSpeed != 0F) {
-            long timeOfDay = level.getDayTime();
+            long timeOfDay = level.getOverworldClockTime();
             double rotationFraction = timeOfDay / (24000.0D / rotationSpeed);
             double skyAngle = Mth.positiveModulo(rotationFraction, 1);
             if (isSkyboxRotation) {

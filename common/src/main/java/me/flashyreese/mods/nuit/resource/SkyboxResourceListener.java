@@ -10,7 +10,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -36,7 +36,7 @@ public class SkyboxResourceListener implements PreparableReloadListener {
     }
 
     @Override
-    public CompletableFuture<Void> reload(SharedState sharedState, Executor executor, PreparationBarrier preparationBarrier, Executor executor2) {
+    public @NonNull CompletableFuture<Void> reload(@NonNull SharedState sharedState, @NonNull Executor executor, PreparationBarrier preparationBarrier, @NonNull Executor executor2) {
         return CompletableFuture.runAsync(() -> this.readFiles(sharedState.resourceManager()), executor2).thenCompose(preparationBarrier::wait);
     }
 }

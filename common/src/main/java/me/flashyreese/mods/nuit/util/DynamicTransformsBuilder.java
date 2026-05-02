@@ -12,7 +12,6 @@ public final class DynamicTransformsBuilder {
     private Optional<Vector4f> colorModulator = Optional.empty();
     private Optional<Vector3f> modelOffset = Optional.empty();
     private Optional<Matrix4f> textureMatrix = Optional.empty();
-    private Optional<Float> lineWidth = Optional.empty();
 
     public static DynamicTransformsBuilder of() {
         return new DynamicTransformsBuilder();
@@ -47,11 +46,6 @@ public final class DynamicTransformsBuilder {
 
     public DynamicTransformsBuilder withTextureMatrix(Matrix4f matrix4f) {
         this.textureMatrix = Optional.of(matrix4f);
-        return this;
-    }
-
-    public DynamicTransformsBuilder withLineWidth(float lineWidth) {
-        this.lineWidth = Optional.of(lineWidth);
         return this;
     }
 

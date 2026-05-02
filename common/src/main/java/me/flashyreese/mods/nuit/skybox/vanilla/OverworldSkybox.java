@@ -50,7 +50,7 @@ public class OverworldSkybox extends AbstractSkybox {
         ((SkyRenderer) skyRendererAccessor).renderSkyDisc(skyColor);
         if (level.environmentAttributes().getDimensionValue(EnvironmentAttributes.SUNRISE_SUNSET_COLOR) > 0) {
             if (NuitApi.getInstance().getActiveSkyboxes().stream().anyMatch(skybox -> skybox instanceof DecorationBox decorationBox && decorationBox.getProperties().rotation().skyboxRotation())) {
-                sunAngle = Mth.positiveModulo(level.getDayTime() / 24000F + 0.75F, 1);
+                sunAngle = Mth.positiveModulo(level.getOverworldClockTime() / 24000F + 0.75F, 1);
             }
 
             this.renderSunriseAndSunset(matrix4fStack, sunAngle, sunriseOrSunsetColor);

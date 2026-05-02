@@ -23,7 +23,7 @@ public abstract class MixinAtmosphericFogEnvironment {
     /*@Redirect(method = "getBaseColor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;getTimeOfDay(F)F"))
     private float nuit$redirectSkyAngle(ClientLevel instance, float v) {
         if (SkyboxManager.getInstance().isEnabled() && SkyboxManager.getInstance().getActiveSkyboxes().stream().anyMatch(skybox -> skybox instanceof DecorationBox decorBox && decorBox.getProperties().rotation().skyboxRotation())) {
-            return Mth.positiveModulo(instance.getDayTime() / 24000F + 0.75F, 1);
+            return Mth.positiveModulo(instance.getOverworldClockTime() / 24000F + 0.75F, 1);
         } else {
             return instance.getTimeOfDay(v);
         }

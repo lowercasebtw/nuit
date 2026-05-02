@@ -2,7 +2,10 @@ package me.flashyreese.mods.nuit.skybox;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.pipeline.BlendFunction;
+import com.mojang.blaze3d.pipeline.ColorTargetState;
+import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.platform.CompareOp;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
@@ -29,19 +32,18 @@ import org.joml.Vector4f;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 public class MonoColorSkybox extends AbstractSkybox {
     private static final Function<BlendFunction, RenderPipeline> MONO_COLOR_SKYBOX_PIPELINE_FACTORY = (blendFunction) -> {
         RenderPipeline.Builder builder = RenderPipeline.builder(RenderPipelinesAccessor.getMatricesProjectSnippet());
-        builder.withLocation(Identifier.tryBuild(NuitClient.MOD_ID, "pipeline/mono_color_skybox"));
+        builder.withLocation(Identifier.fromNamespaceAndPath(NuitClient.MOD_ID, "pipeline/mono_color_skybox"));
         builder.withVertexShader("core/position_color");
         builder.withFragmentShader("core/position_color");
-        builder.withDepthWrite(false);
+        builder.withDepthStencilState(new DepthStencilState(CompareOp.LESS_THAN_OR_EQUAL, false));
         if (blendFunction != null) {
-            builder.withBlend(blendFunction);
-        } else {
-            builder.withoutBlend();
+            builder.withColorTargetState(new ColorTargetState(blendFunction));
         }
         builder.withVertexFormat(DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS);
         return builder.build();

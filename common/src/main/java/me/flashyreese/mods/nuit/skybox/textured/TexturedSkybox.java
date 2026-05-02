@@ -2,7 +2,10 @@ package me.flashyreese.mods.nuit.skybox.textured;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.pipeline.BlendFunction;
+import com.mojang.blaze3d.pipeline.ColorTargetState;
+import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.platform.CompareOp;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import me.flashyreese.mods.nuit.NuitClient;
@@ -32,14 +35,12 @@ import java.util.function.Function;
 public abstract class TexturedSkybox extends AbstractSkybox implements TextureRegistrar {
     private static final Function<BlendFunction, RenderPipeline> TEXTURED_SKYBOX_PIPELINE_FACTORY = (blendFunction) -> {
         RenderPipeline.Builder builder = RenderPipeline.builder(RenderPipelinesAccessor.getMatricesProjectSnippet());
-        builder.withLocation(Identifier.tryBuild(NuitClient.MOD_ID, "pipeline/textured_skybox"));
+        builder.withLocation(Identifier.fromNamespaceAndPath(NuitClient.MOD_ID, "pipeline/textured_skybox"));
         builder.withVertexShader("core/position_tex");
         builder.withFragmentShader("core/position_tex");
-        builder.withDepthWrite(false);
+        builder.withDepthStencilState(new DepthStencilState(CompareOp.LESS_THAN_OR_EQUAL, false));
         if (blendFunction != null) {
-            builder.withBlend(blendFunction);
-        } else {
-            builder.withoutBlend();
+            builder.withColorTargetState(new ColorTargetState(blendFunction));
         }
         builder.withSampler("Sampler0");
         builder.withVertexFormat(DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS);
