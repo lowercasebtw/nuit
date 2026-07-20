@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public record DirectClockSource(String type, Optional<Identifier> id, long time) implements ClockSource {
     public static final Codec<DirectClockSource> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.STRING.optionalFieldOf("type", "clock").forGetter(DirectClockSource::type),
+            Codec.STRING.optionalFieldOf("type", WorldClockSource.TYPE).forGetter(DirectClockSource::type),
             Identifier.CODEC.optionalFieldOf("id").forGetter(DirectClockSource::id),
             CodecUtils.getClampedLong(0L, Long.MAX_VALUE).optionalFieldOf("time", 0L).forGetter(DirectClockSource::time)
     ).apply(instance, DirectClockSource::new));
